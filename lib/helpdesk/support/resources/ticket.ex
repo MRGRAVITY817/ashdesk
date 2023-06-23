@@ -1,6 +1,8 @@
 defmodule Helpdesk.Support.Ticket do
   # This turns this module into a resource
-  use Ash.Resource
+  # Stores in ETS, memory-based Erlang Term Storage.
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
 
   actions do
     defaults [:create, :read, :update, :destroy]
@@ -32,7 +34,6 @@ defmodule Helpdesk.Support.Ticket do
 
   # require Ash.Query
 
-  # # Save 5 ticket data as Ash.DataLayer.Simple
   # tickets =
   #   for i <- 0..5 do
   #     ticket =
@@ -40,6 +41,7 @@ defmodule Helpdesk.Support.Ticket do
   #       |> Ash.Changeset.for_create(:open, %{subject: "Issue #{i}"})
   #       |> Helpdesk.Support.create!()
 
+  #     # For even-number index, we close ticket.
   #     if rem(i, 2) == 0 do
   #       ticket
   #       |> Ash.Changeset.for_update(:close)
@@ -49,9 +51,11 @@ defmodule Helpdesk.Support.Ticket do
   #     end
   #   end
 
-  # # Find the tickets where the subject contains "2"
   # Helpdesk.Support.Ticket
   # |> Ash.Query.filter(contains(subject, "2"))
-  # |> Ash.DataLayer.Simple.set_data(tickets)
+  # |> Helpdesk.Support.read!()
+
+  # Helpdesk.Support.Ticket
+  # |> Ash.Query.filter(status == :closed and not contains(subject, "4"))
   # |> Helpdesk.Support.read!()
 end
