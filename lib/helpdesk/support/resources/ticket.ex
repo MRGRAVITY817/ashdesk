@@ -29,4 +29,29 @@ defmodule Helpdesk.Support.Ticket do
       allow_nil? false
     end
   end
+
+  # require Ash.Query
+
+  # # Save 5 ticket data as Ash.DataLayer.Simple
+  # tickets =
+  #   for i <- 0..5 do
+  #     ticket =
+  #       Helpdesk.Support.Ticket
+  #       |> Ash.Changeset.for_create(:open, %{subject: "Issue #{i}"})
+  #       |> Helpdesk.Support.create!()
+
+  #     if rem(i, 2) == 0 do
+  #       ticket
+  #       |> Ash.Changeset.for_update(:close)
+  #       |> Helpdesk.Support.update!()
+  #     else
+  #       ticket
+  #     end
+  #   end
+
+  # # Find the tickets where the subject contains "2"
+  # Helpdesk.Support.Ticket
+  # |> Ash.Query.filter(contains(subject, "2"))
+  # |> Ash.DataLayer.Simple.set_data(tickets)
+  # |> Helpdesk.Support.read!()
 end
