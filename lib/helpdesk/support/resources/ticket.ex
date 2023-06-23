@@ -8,12 +8,26 @@ defmodule Helpdesk.Support.Ticket do
     defaults [:create, :read, :update, :destroy]
 
     create :open do
-      accept [:subject]
+      accept [:subject, :representative_id]
     end
 
     update :close do
       accept []
       change set_attribute(:status, :closed)
+    end
+
+    update :assign do
+      accept []
+
+      argument :representative_id, :uuid do
+        allow_nil? false
+      end
+
+      change manage_relationship(
+               :representative_id,
+               :representative,
+               type: :append_and_remove
+             )
     end
   end
 
@@ -33,7 +47,9 @@ defmodule Helpdesk.Support.Ticket do
   end
 
   relationships do
-    belongs_to :representative, Helpdesk.Support.Representative
+    belongs_to :representative, Helpdesk.Support.Representative do
+      attribute_writable? true
+    end
   end
 
   # require Ash.Query
