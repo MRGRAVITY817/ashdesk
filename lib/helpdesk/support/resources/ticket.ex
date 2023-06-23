@@ -8,6 +8,11 @@ defmodule Helpdesk.Support.Ticket do
     create :open do
       accept [:subject]
     end
+
+    update :close do
+      accept []
+      change set_attribute(:status, :closed)
+    end
   end
 
   # Simple pieces of data that exist on this resource
