@@ -4,11 +4,24 @@ defmodule Helpdesk.Support.Ticket do
 
   actions do
     defaults [:create, :read, :update, :destroy]
+
+    create :open do
+      accept [:subject]
+    end
   end
 
   # Simple pieces of data that exist on this resource
   attributes do
     uuid_primary_key :id
-    attribute :subject, :string
+
+    attribute :subject, :string do
+      allow_nil? false
+    end
+
+    attribute :status, :atom do
+      constraints one_of: [:open, :closed]
+      default :open
+      allow_nil? false
+    end
   end
 end
