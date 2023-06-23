@@ -32,6 +32,10 @@ defmodule Helpdesk.Support.Ticket do
     end
   end
 
+  relationships do
+    belongs_to :representative, Helpdesk.Support.Representative
+  end
+
   # require Ash.Query
 
   # tickets =
